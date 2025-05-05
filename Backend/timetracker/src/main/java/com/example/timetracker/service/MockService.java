@@ -26,14 +26,17 @@ public class MockService {
         return c;
     }
 
-    public Category updateCategory(Long id, Category c) {
-        Category existing = categories.get(id);
-        if (existing != null) {
-            existing.setName(c.getName());
+    public Category updateCategory(Long id, String name) {
+        for (Category c : categories.values()) {
+            if (c.getId().equals(id)) {
+                c.setName(name);
+                return c;
+            }
         }
-        return existing;
+        throw new RuntimeException("Kategori hittades inte");
     }
-
+    
+    
     public TimeEntry checkIn(Long categoryId) {
         currentEntry = new TimeEntry(entryIdCounter++, categoryId, LocalDateTime.now(), null);
         return currentEntry;
