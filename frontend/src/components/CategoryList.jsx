@@ -4,15 +4,34 @@ import api from '../api';
 function CategoryList() {
   const [categories, setCategories] = useState([]);
   const [newName, setNewName] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [editName, setEditName] = useState('');
 
   useEffect(() => {
-    api.get('/categories').then(res => setCategories(res.data));
+    fetchCategories();
   }, []);
 
+  const fetchCategories = () => {
+    api.get('/categories').then(res => setCategories(res.data));
+  };
+
   const addCategory = () => {
-    api.post('/categories', { name: newName }).then(res => {
-      setCategories([...categories, res.data]);
+    api.post('/categories', { name: newName }).then(() => {
       setNewName('');
+      fetchCategories();
+    });
+  };
+
+  const startEdit = (id, name) => {
+    setEditingId(id);
+    setEditName(name);
+  };
+
+  const saveEdit = (id) => {
+    api.put(`/categories/${id}`, { name: editName }).then(() => {
+      setEditingId(null);
+      setEditName('');
+      fetchCategories();
     });
   };
 
@@ -21,7 +40,23 @@ function CategoryList() {
       <h2>Kategorier</h2>
       <ul>
         {categories.map(cat => (
-          <li key={cat.id}>{cat.name}</li>
+          <li key={cat.id}>
+            {editingId === cat.id ? (
+              <>
+                <input
+                  value={editName}
+                  onChange={e => setEditName(e.target.value)}
+                />
+                <button onClick={() => saveEdit(cat.id)}>Spara</button>
+                <button onClick={() => setEditingId(null)}>Avbryt</button>
+              </>
+            ) : (
+              <>
+                {cat.name}
+                <button onClick={() => startEdit(cat.id, cat.name)}>Redigera</button>
+              </>
+            )}
+          </li>
         ))}
       </ul>
       <input

@@ -28,8 +28,10 @@ public class CategoryController {
         return mockService.addCategory(category);
     }
 
+
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category category) {
-        return mockService.updateCategory(id, category);
-    }
+public Category updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+    return mockService.updateCategory(id, updatedCategory.getName());
+}
+
 }
