@@ -32,4 +32,10 @@ public class TimeEntryController {
     public List<TimeEntry> getAll() {
         return mockService.getAllEntries();
     }
+
+    @GetMapping("/stats")
+public Map<String, Long> getWeeklyStats() {
+    return mockService.getWeeklyStats();
+}
+
 }

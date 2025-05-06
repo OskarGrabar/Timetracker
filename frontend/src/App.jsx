@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CategoryList from './components/CategoryList';
 import CheckInOut from './components/CheckInOut';
 import api from './api';
+import StatsChart from './components/StatsChart';
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -15,6 +16,10 @@ function App() {
       <h1>Personligt Tidrapporteringssystem</h1>
       <CategoryList />
       <CheckInOut categories={categories} />
+      <>
+      
+      <StatsChart />
+    </>
     </div>
   );
 }

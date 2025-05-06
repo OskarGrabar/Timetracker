@@ -56,4 +56,22 @@ public class MockService {
     public List<TimeEntry> getAllEntries() {
         return entries;
     }
+    
+    public Map<String, Long> getWeeklyStats() {
+        Map<String, Long> stats = new HashMap<>();
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(7);
+    
+        for (TimeEntry entry : entries) {
+            if (entry.getEndTime() != null && entry.getStartTime().isAfter(oneWeekAgo)) {
+                long minutes = java.time.Duration.between(entry.getStartTime(), entry.getEndTime()).toMinutes();
+                Category category = categories.get(entry.getCategoryId());
+                if (category != null) {
+                    stats.put(category.getName(), stats.getOrDefault(category.getName(), 0L) + minutes);
+                }
+            }
+        }
+    
+        return stats;
+    }
+    
 }
