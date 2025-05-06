@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_DATABASE: timesystemdb
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: springpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    image: din-springboot-image  # <-- ändra till ditt faktiska image-namn
+    container_name: springboot-container
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/timesystemdb
+      SPRING_DATASOURCE_USERNAME: springuser
+      SPRING_DATASOURCE_PASSWORD: springpass
+    ports:
+      - "8080:8080"
+    restart: on-failure
+
+volumes:
+  mysql-data:
