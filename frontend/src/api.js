@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api', // backend Spring API
+  baseURL: 'https://seal-app-rqsih.ondigitalocean.app/', // backend Spring API
 });
 
 export default api;
