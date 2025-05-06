@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Kopiera över det byggda JAR-filen från ditt projekt
-COPY target/timetracker-0.0.1-SNAPSHOT.jar app.jar
+COPY timetracker/target/timetracker-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponera porten som din applikation kommer att lyssna på (t.ex. 8080 för Spring Boot)
 EXPOSE 8080
