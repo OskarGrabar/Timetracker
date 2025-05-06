@@ -18,7 +18,7 @@ public WebMvcConfigurer corsConfigurer() {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173") // React default port
+                    .allowedOrigins("*") // React default port
                     .allowedMethods("*");
         }
     };
