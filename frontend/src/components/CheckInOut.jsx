@@ -6,12 +6,12 @@ function CheckInOut({ categories }) {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const checkIn = () => {
-    api.post('/time-entry/check-in', { categoryId: Number(selectedCategory) })
+    api.post('../time-entry/check-in', { categoryId: Number(selectedCategory) })
       .then(res => setActive(res.data));
   };
 
   const checkOut = () => {
-    api.post('/time-entry/check-out').then(res => {
+    api.post('../time-entry/check-out').then(res => {
       setActive(null);
       alert(`Avslutade aktivitet: ${JSON.stringify(res.data)}`);
     });

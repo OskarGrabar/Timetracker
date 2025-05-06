@@ -6,7 +6,7 @@ const StatsChart = () => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    api.get('/time-entry/stats')
+    api.get('../time-entry/stats')
       .then(res => {
         const data = Object.entries(res.data).map(([name, value]) => ({
           name,
