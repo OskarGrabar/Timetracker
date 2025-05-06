@@ -8,7 +8,7 @@ function App() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    api.get('../categories').then(res => setCategories(res.data));
+    api.get('/categories').then(res => setCategories(res.data));
   }, []);
 
   return (

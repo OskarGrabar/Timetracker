@@ -12,11 +12,11 @@ function CategoryList() {
   }, []);
 
   const fetchCategories = () => {
-    api.get('../categories').then(res => setCategories(res.data));
+    api.get('/categories').then(res => setCategories(res.data));
   };
 
   const addCategory = () => {
-    api.post('../categories', { name: newName }).then(() => {
+    api.post('/categories', { name: newName }).then(() => {
       setNewName('');
       fetchCategories();
     });
@@ -28,7 +28,7 @@ function CategoryList() {
   };
 
   const saveEdit = (id) => {
-    api.put(`../categories/${id}`, { name: editName }).then(() => {
+    api.put(`/categories/${id}`, { name: editName }).then(() => {
       setEditingId(null);
       setEditName('');
       fetchCategories();
