@@ -2,7 +2,8 @@ package com.example.timetracker.controller;
 
 
 import com.example.timetracker.model.TimeEntry;
-import com.example.timetracker.service.MockService;
+import com.example.timetracker.service.TimeEntryService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,30 +13,29 @@ import java.util.Map;
 @RequestMapping("/api/time-entry")
 public class TimeEntryController {
 
-    private final MockService mockService;
+    private final TimeEntryService service;
 
-    public TimeEntryController(MockService mockService) {
-        this.mockService = mockService;
+    public TimeEntryController(TimeEntryService service) {
+        this.service = service;
     }
 
     @PostMapping("/check-in")
     public TimeEntry checkIn(@RequestBody Map<String, Long> payload) {
-        return mockService.checkIn(payload.get("categoryId"));
+        return service.checkIn(payload.get("categoryId"));
     }
 
     @PostMapping("/check-out")
     public TimeEntry checkOut() {
-        return mockService.checkOut();
+        return service.checkOut();
     }
 
     @GetMapping
     public List<TimeEntry> getAll() {
-        return mockService.getAllEntries();
+        return service.getAll();
     }
 
     @GetMapping("/stats")
-public Map<String, Long> getWeeklyStats() {
-    return mockService.getWeeklyStats();
-}
-
+    public Map<String, Long> getWeeklyStats() {
+        return service.getWeeklyStats();
+    }
 }
