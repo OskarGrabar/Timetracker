@@ -18,7 +18,7 @@ public WebMvcConfigurer corsConfigurer() {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOrigins("https://timetracker-app-buu2c.ondigitalocean.app/") // React default port
+                    .allowedOrigins("*") // React default port
                     .allowedMethods("*");
         }
     };
