@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import api from '../api'; // eller justera sökvägen till din Axios-instans
+import api from '../api';
 
-const StatsChart = () => {
+const StatsChart = ({ refreshFlag }) => {
   const [chartData, setChartData] = useState([]);
 
-  useEffect(() => {
+  const fetchStats = () => {
     api.get('/time-entry/stats')
       .then(res => {
         const data = Object.entries(res.data).map(([name, value]) => ({
@@ -15,7 +15,11 @@ const StatsChart = () => {
         setChartData(data);
       })
       .catch(err => console.error('Kunde inte hämta statistik:', err));
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, [refreshFlag]);  // Kör om varje gång refreshFlag ändras
 
   return (
     <div style={{ width: '100%', height: 400 }}>

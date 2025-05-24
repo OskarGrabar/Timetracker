@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import api from '../api';
 
-function CategoryList() {
-  const [categories, setCategories] = useState([]);
+function CategoryList({ categories, fetchCategories }) {
   const [newName, setNewName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = () => {
-    api.get('/categories').then(res => setCategories(res.data));
-  };
-
   const addCategory = () => {
-    api.post('/categories', { name: newName }).then(() => {
-      setNewName('');
-      fetchCategories();
-    });
+    if (!newName.trim()) return;
+    api.post('/categories', { name: newName.trim() })
+      .then(() => {
+        setNewName('');
+        fetchCategories();
+      })
+      .catch(err => console.error('Failed to add category', err));
   };
 
   const startEdit = (id, name) => {
@@ -28,11 +22,14 @@ function CategoryList() {
   };
 
   const saveEdit = (id) => {
-    api.put(`/categories/${id}`, { name: editName }).then(() => {
-      setEditingId(null);
-      setEditName('');
-      fetchCategories();
-    });
+    if (!editName.trim()) return;
+    api.put(`/categories/${id}`, { name: editName.trim() })
+      .then(() => {
+        setEditingId(null);
+        setEditName('');
+        fetchCategories();
+      })
+      .catch(err => console.error('Failed to update category', err));
   };
 
   return (
@@ -52,7 +49,7 @@ function CategoryList() {
               </>
             ) : (
               <>
-                {cat.name}
+                {cat.name}{' '}
                 <button onClick={() => startEdit(cat.id, cat.name)}>Redigera</button>
               </>
             )}
@@ -64,7 +61,7 @@ function CategoryList() {
         onChange={e => setNewName(e.target.value)}
         placeholder="Ny kategori"
       />
-      <button onClick={addCategory}>Lägg till</button>
+      <button onClick={addCategory} disabled={!newName.trim()}>Lägg till</button>
     </div>
   );
 }
